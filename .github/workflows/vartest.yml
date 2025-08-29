@@ -20,9 +20,6 @@ jobs:
 
             echo "Publishing -> AMI=$AMI_ID, ASG=$ASG_NAME"
 
-            aws sns publish \
-              --region "${{ env.AWS_REGION }}" \
-              --topic-arn arn:aws:sns:us-east-1:16822028:NoderefreshTrigger \
-              --message "$item"
+            
           done
 
