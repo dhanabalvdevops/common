@@ -1,0 +1,27 @@
+name: JSON Env from Repo
+
+on:
+  workflow_dispatch:
+
+jobs:
+  process-json:
+    runs-on: ubuntu-latest
+    env:
+      JSON_DATA: ${{ vars.MY_JSON }}   # if stored as environment variable
+      # JSON_DATA: ${{ secrets.MY_JSON }}  # if stored as secret
+
+    steps:
+      - name: Show JSON
+        run: echo "$JSON_DATA"
+
+      - name: Loop through JSON values
+        run: |
+          echo "$JSON_DATA" | jq -c '.[]' | while read item; do
+            name=$(echo "$item" | jq -r '.Name')
+            value=$(echo "$item" | jq -r '.value')
+            
+            echo "Processing Name=$name, Value=$value"
+
+            # Example command using values
+            echo "Running task with $name and $value"
+          done
