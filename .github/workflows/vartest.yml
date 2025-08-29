@@ -11,15 +11,3 @@ jobs:
         run: |
           echo ${{ vars.MY_JSON }} > payload.json
           cat payload.json
-
-      - name: Loop through JSON values
-        run: |
-          echo "$JSON_DATA" | jq -c '.[]' | while read item; do
-            name=$(echo "$item" | jq -r '.Name')
-            value=$(echo "$item" | jq -r '.value')
-            
-            echo "Processing Name=$name, Value=$value"
-
-            # Example command using values
-            echo "Running task with $name and $value"
-          done
