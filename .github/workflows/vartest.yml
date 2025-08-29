@@ -6,12 +6,11 @@ on:
 jobs:
   process-json:
     runs-on: ubuntu-latest
-    env:
-      JSON_DATA: ${{ vars.MY_JSON }}
-
     steps:
       - name: Show JSON
-        run: echo "$JSON_DATA"
+        run: |
+          echo '${{ vars.JSON_DATA }}' > payload.json
+          cat payload.json
 
       - name: Loop through JSON values
         run: |
