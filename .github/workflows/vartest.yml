@@ -6,9 +6,23 @@ on:
 jobs:
   process-json:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Parse JSON payload from GitHub Environment
-        id: parse
+      - name: Publish all payloads sequentially
         run: |
-          echo '${{ vars.MY_JSON }}' > payload.json
-          cat payload.json
+          echo '${{ vars.AMI_PAYLOAD_JSON }}' > payloads.json
+          cat payloads.json
+
+          # Loop through each object in the list
+          jq -c '.[]' payloads.json | while read item; do
+            AMI_ID=$(echo "$item" | jq -r '.NewAmiId')
+            ASG_NAME=$(echo "$item" | jq -r '.AutoScalingGroupName')
+
+            echo "Publishing -> AMI=$AMI_ID, ASG=$ASG_NAME"
+
+            aws sns publish \
+              --region "${{ env.AWS_REGION }}" \
+              --topic-arn arn:aws:sns:us-east-1:16822028:NoderefreshTrigger \
+              --message "$item"
+          done
+
