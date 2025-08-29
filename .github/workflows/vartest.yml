@@ -9,7 +9,7 @@ jobs:
     steps:
       - name: Show JSON
         run: |
-          echo "${{ vars.MY_JSON }}" > payload.json
+          echo ${{ vars.MY_JSON }} > payload.json
           cat payload.json
 
       - name: Loop through JSON values
