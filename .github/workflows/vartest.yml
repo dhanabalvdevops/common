@@ -7,8 +7,7 @@ jobs:
   process-json:
     runs-on: ubuntu-latest
     env:
-      JSON_DATA: ${{ vars.MY_JSON }}   # if stored as environment variable
-      # JSON_DATA: ${{ secrets.MY_JSON }}  # if stored as secret
+      JSON_DATA: ${{ vars.MY_JSON }}
 
     steps:
       - name: Show JSON
